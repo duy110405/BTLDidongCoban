@@ -12,10 +12,34 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DiDongBTL">
         <activity
-            android:name=".activity_signin"
+            android:name=".activity_setting"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity_profile"
+            android:exported="false" />
+        <activity
+            android:name=".activity_bamgio"
+            android:exported="false" />
+        <activity
+            android:name=".activity_bangdiem"
+            android:exported="false" />
+        <activity
+            android:name=".activity_addnhiemvu"
+            android:exported="false" />
+        <activity
+            android:name=".activity_nhiemvu"
+            android:exported="false" />
+        <activity
+            android:name=".activity_lichhoc"
+            android:exported="false" />
+        <activity
+            android:name=".activity_trangchu"
+            android:exported="false" />
+        <activity
+            android:name=".activity_signup"
+            android:exported="false" />
+        <activity
+            android:name=".activity_signin"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

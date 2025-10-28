@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:text="ĐĂNG NHẬP"
+        android:text="ĐĂNG KÝ"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -43,7 +43,7 @@
             android:padding="15dp"/>
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/edtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -66,22 +66,34 @@
             android:background="@drawable/bogoconhap"
             android:textColor="#6B6565" />
 
+        <EditText
+            android:id="@+id/edtLaimatkhau"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:ems="10"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="Nhập lại mật khẩu"
+            android:background="@drawable/bogoconhap"
+            android:textColor="#6B6565" />
+
         <TextView
             android:id="@+id/forgotPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="start"
             android:layout_marginBottom="12dp"
-            android:text="Quên mật khẩu?"
-            android:textColor="#000"
+            android:text="✓ Mật khẩu phải có ít nhất 8 ký tự"
+            android:textColor="#645E5E"
             android:textSize="12sp"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnSignup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Đăng nhập"
+            android:text="Đăng ký"
             android:backgroundTint="#00A7B5"
             android:textColor="@android:color/white"
             android:layout_marginBottom="16dp" />
@@ -121,13 +133,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chưa có tài khoản? " />
+                android:text="Bạn đã có tài khoản? " />
 
             <TextView
-                android:id="@+id/txtSignup"
+                android:id="@+id/txtSignin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đăng ký ngay"
+                android:text="Đăng nhập"
                 android:textColor="#00A7B5"
                 android:textStyle="bold" />
         </LinearLayout>

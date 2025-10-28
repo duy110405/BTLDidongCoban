@@ -12,33 +12,32 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class activity_signin extends AppCompatActivity {
+public class activity_signup extends AppCompatActivity {
 
-    Button btnlogin ;
-    TextView txtSignup ;
+    Button btnSignup ;
+    TextView txtSignin ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_signin);
+        setContentView(R.layout.activity_signup);
 
-        btnlogin = findViewById(R.id.btnLogin);
-        txtSignup = findViewById(R.id.txtSignup);
-        btnlogin.setOnClickListener(new View.OnClickListener() {
+        btnSignup = findViewById(R.id.btnSignup);
+        txtSignin = findViewById(R.id.txtSignin);
+        btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity_signin.this , activity_trangchu.class);
+                Intent intent = new Intent(activity_signup.this , activity_trangchu.class) ;
                 startActivity(intent);
             }
         });
-        txtSignup.setOnClickListener(new View.OnClickListener() {
+        txtSignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity_signin.this , activity_signup.class);
+                Intent intent = new Intent(activity_signup.this , activity_signin.class) ;
                 startActivity(intent);
             }
         });
-
 
     }
 }
