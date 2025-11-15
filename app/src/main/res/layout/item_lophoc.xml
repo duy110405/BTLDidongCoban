@@ -30,7 +30,7 @@
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="7:30 - 11:00 AM"
+            android:text="7:30 AM"
             android:textSize="13sp"
             android:textColor="#757575"
             android:layout_below="@id/tvTitle"
