@@ -11,14 +11,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="wrap_content"
         android:paddingStart="18dp"
         android:paddingEnd="18dp"
         android:gravity="center_vertical"
         android:background="@drawable/bogockhungnoidung">
 
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/tvTenMon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lập trình di động"
@@ -30,10 +30,20 @@
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="7:30 AM"
+            android:text="Giờ bắt đầu : 7:30 AM"
             android:textSize="13sp"
             android:textColor="#757575"
-            android:layout_below="@id/tvTitle"
+            android:layout_below="@id/tvTenMon"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:id="@+id/tvHinhThucHoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hình thức học : Trực tuyến"
+            android:textSize="13sp"
+            android:textColor="#757575"
+            android:layout_below="@id/tvTime"
             android:layout_marginTop="4dp"/>
 
         <!-- pill cho phòng -->
@@ -49,7 +59,6 @@
             android:text="Phòng 21"
             android:textSize="12sp"
             android:textColor="@android:color/white" />
-
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
