@@ -79,18 +79,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <EditText
+                    android:id="@+id/edtNgayhoc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bogoconhap"
-                    android:layout_marginBottom="20dp"
-                    android:text="Tuần "
-                    android:textStyle="bold"/>
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bogoconhap"
-                    android:text="Thứ"
+                    android:text="Ngày: "
                     android:textStyle="bold"/>
                 <TextView
                     android:layout_width="wrap_content"

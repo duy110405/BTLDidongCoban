@@ -58,7 +58,9 @@
             android:layout_centerVertical="true"
             android:text="Phòng 21"
             android:textSize="12sp"
-            android:textColor="@android:color/white" />
+            android:textColor="#111111"
+            android:background="@android:color/holo_blue_light" />
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
