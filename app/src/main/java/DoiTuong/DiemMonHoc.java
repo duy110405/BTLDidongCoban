@@ -2,11 +2,12 @@ package DoiTuong;
 
 public class DiemMonHoc {
     private String tenMon , thangDiemChu , ghiChu;
-    private int soTin ;
+    private int MaMon ,soTin ;
     private double thangDiem10 , thangDiem4 ;
 
     // Constructor
-    public DiemMonHoc(String tenMon , int soTin, double thangDiem10, double thangDiem4, String thangDiemChu, String ghiChu){
+    public DiemMonHoc(int MaMon , String tenMon , int soTin, double thangDiem10, double thangDiem4, String thangDiemChu, String ghiChu){
+        this.MaMon = MaMon;
         this.tenMon = tenMon ;
         this.soTin = soTin ;
         this.thangDiem10 = thangDiem10 ;
@@ -15,6 +16,10 @@ public class DiemMonHoc {
         this.ghiChu = ghiChu;
     }
     // getter
+    public int getMaMon() {
+        return MaMon;
+    }
+
     public String getTenMon() { return tenMon; }
     public int getSoTin() { return soTin; }
     public double getThangDiem10() { return thangDiem10; }

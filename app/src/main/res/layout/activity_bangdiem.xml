@@ -201,13 +201,12 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_diem_mon_hoc"
+                android:id="@+id/rvDiemMonHoc"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
     <!-- ===========================================MENU=============================== -->
     <LinearLayout
         android:id="@+id/bottomMenu"

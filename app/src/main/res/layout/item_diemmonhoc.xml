@@ -8,37 +8,37 @@
     android:paddingBottom="8dp"
     android:background="@drawable/border_bottom">
     <TextView
-        android:id="@+id/txtTenmon"
+        android:id="@+id/tvTenmon"
         style="@style/TableCell"
         android:layout_weight="2"
         android:text="Môn học A"/>
 
     <TextView
-        android:id="@+id/txtSotin"
+        android:id="@+id/tvSotin"
         style="@style/TableCell"
         android:layout_weight="0.8"
         android:text="3"/>
 
     <TextView
-        android:id="@+id/txtThangdiem10"
+        android:id="@+id/tvThangdiem10"
         style="@style/TableCell"
         android:layout_weight="1"
         android:text="8.5"/>
 
     <TextView
-        android:id="@+id/txtThangdiem4"
+        android:id="@+id/tvThangdiem4"
         style="@style/TableCell"
         android:layout_weight="1"
         android:text="3.5"/>
 
     <TextView
-        android:id="@+id/txtDiemchu"
+        android:id="@+id/tvThangdiemchu"
         style="@style/TableCell"
         android:layout_weight="1"
         android:text="B+"/>
 
     <TextView
-        android:id="@+id/txtGhichu"
+        android:id="@+id/tvGhichu"
         style="@style/TableCell"
         android:layout_weight="2"
         android:text="Đã qua"/>
