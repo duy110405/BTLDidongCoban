@@ -6,45 +6,69 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="12dp"
-    android:gravity="center_vertical"> <LinearLayout
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:orientation="vertical"
-    android:layout_marginEnd="8dp">
+    android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/txtTennhiemvu"
-        android:layout_width="match_parent"
+    <!-- Khối text bên trái -->
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        tools:text="Tên Nhiệm Vụ Chính"/>
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginEnd="12dp">
 
-    <TextView
-        android:id="@+id/txtMota"
-        android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/txtTennhiemvu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="Tên Nhiệm Vụ Chính"/>
+
+        <TextView
+            android:id="@+id/txtMota"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@android:color/darker_gray"
+            android:maxLines="2"
+            android:ellipsize="end"
+            tools:text="Mô tả về nhiệm vụ"/>
+
+        <TextView
+            android:id="@+id/txtGiohethan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="4dp"
+            tools:text="📅 27/10/2025 lúc 10:30 PM"/>
+
+    </LinearLayout>
+
+    <!-- Khối checkbox + nút Xóa bên phải -->
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textColor="@android:color/darker_gray"
-        tools:text="Mô tả về nhiệm vụ"/>
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/txtGiohethan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"
-        android:layout_marginTop="2dp"
-        tools:text="📅 27/10/2025 lúc 10:30 PM"/>
+        <CheckBox
+            android:id="@+id/cbNhiemvu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btnXoaNV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xóa"
+            android:textSize="12sp"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/cbNhiemvu"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:minWidth="0dp"
-        android:minHeight="0dp"/>
 </LinearLayout>
