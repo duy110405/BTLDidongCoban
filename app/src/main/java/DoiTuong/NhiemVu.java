@@ -31,7 +31,6 @@ public class NhiemVu {
     public String getMoTa() {
         return MoTa;
     }
-
     public void setMoTa(String moTa) {
         MoTa = moTa;
     }
