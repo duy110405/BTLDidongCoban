@@ -129,7 +129,7 @@ public class activity_bangdiem extends AppCompatActivity {
             database = dbHelper.getDatabase();
         }
 
-        String sql = "SELECT MaMon, TenMon, SoTin, ThangDiem10, ThangDiem4, ThangDiemChu, GhiChu " +
+        String sql = "SELECT Id, TenMon, SoTin, ThangDiem10, ThangDiem4, ThangDiemChu, GhiChu " +
                 "FROM DiemMon WHERE IdHocSinh = ?";
 
         Cursor cursor = database.rawQuery(sql, new String[]{String.valueOf(currentIdHocSinh)});
@@ -140,7 +140,7 @@ public class activity_bangdiem extends AppCompatActivity {
 
         if (cursor.moveToFirst()) {
             do {
-                int maMon = cursor.getInt(0);
+                int id = cursor.getInt(0);
                 String tenMon = cursor.getString(1);
                 int soTin = cursor.getInt(2);
                 double thangDiem10 = cursor.getDouble(3);
@@ -149,7 +149,7 @@ public class activity_bangdiem extends AppCompatActivity {
                 String ghiChu = cursor.getString(6);
 
                 diemMonHocList.add(new DiemMonHoc(
-                        maMon, tenMon, soTin, thangDiem10, thangDiem4, thangDiemChu, ghiChu
+                        id, tenMon, soTin, thangDiem10, thangDiem4, thangDiemChu, ghiChu
                 ));
 
                 tongTin += soTin;
