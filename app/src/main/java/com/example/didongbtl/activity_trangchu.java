@@ -13,9 +13,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,6 +28,7 @@ import java.util.List;
 import java.util.Locale;
 
 import Adapter.LichhocAdapter;
+import DoiTuong.HocSinh;
 import DoiTuong.LichHoc;
 
 public class activity_trangchu extends AppCompatActivity {
@@ -38,36 +36,51 @@ public class activity_trangchu extends AppCompatActivity {
     private LinearLayout navHome, navLichhoc, navBamgio, navNhiemvu;
     private ImageButton btnSetting ;
     private TextView tvNgayHoc;
-    RecyclerView rvLichhocHome ;
-    private  Button btnProfile , btnBangdiem ;
+    private RecyclerView rvLichhocHome ;
+    private Button btnProfile , btnBangdiem ;
     private List<LichHoc> lichHocList;
     private LichhocAdapter lichhocAdapter;
 
+    // ==== Lưu thông tin sinh viên hiện tại ====
+    private HocSinh currentStudent;
+
     // Khai báo database
-    String DB_PATH_SUFFIX = "/databases/";
-    SQLiteDatabase database=null;
-    String DATABASE_NAME="QuanLySQLDiDong.db";
+    private static final String DB_PATH_SUFFIX = "/databases/";
+    private static final String DATABASE_NAME = "QuanLySQLDiDong.db";
+    private SQLiteDatabase database = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_trangchu);
+
+        // ================== NHẬN HỌC SINH TỪ MÀN ĐĂNG NHẬP ==================
+        currentStudent = (HocSinh) getIntent().getSerializableExtra("hoc_sinh");
+
         //==== Ánh xạ View ====//
-        btnBangdiem = findViewById(R.id.btnBangdiem);
-        btnProfile = findViewById(R.id.btnProfile);
-        rvLichhocHome = findViewById(R.id.rvLichhocHome);
-        tvNgayHoc = findViewById(R.id.tvNgayHoc);
-        //Gọi hàm Copy CSDL từ assets vào thư mục Databases
+        btnBangdiem    = findViewById(R.id.btnBangdiem);
+        btnProfile     = findViewById(R.id.btnProfile);
+        rvLichhocHome  = findViewById(R.id.rvLichhocHome);
+        tvNgayHoc      = findViewById(R.id.tvNgayHoc);
+
+        navHome    = findViewById(R.id.navHome);
+        navLichhoc = findViewById(R.id.navLichhoc);
+        navBamgio  = findViewById(R.id.navBamgio);
+        navNhiemvu = findViewById(R.id.navNhiemvu);
+        btnSetting = findViewById(R.id.btnSetting);
+
+        // ================== XỬ LÝ CSDL (copy từ assets nếu chưa có) ==================
         processCopy();
-        //Mở CSDL lên để dùng
-        database = openOrCreateDatabase("QuanLySQLDiDong.db",MODE_PRIVATE, null);
-        // ================== RecyclerView ==================
+        database = openOrCreateDatabase(DATABASE_NAME, MODE_PRIVATE, null);
+
+        // ================== RecyclerView lịch học ==================
         lichHocList = new ArrayList<>();
         lichhocAdapter = new LichhocAdapter(this, lichHocList);
         rvLichhocHome.setLayoutManager(new LinearLayoutManager(this));
         rvLichhocHome.setAdapter(lichhocAdapter);
         rvLichhocHome.setNestedScrollingEnabled(false);
+
         // ================== Set ngày hôm nay ==================
         Calendar cal = Calendar.getInstance();
         String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -77,33 +90,33 @@ public class activity_trangchu extends AppCompatActivity {
         // Load lịch cho ngày hôm nay
         loadLichHocForDate(today);
 
+        // ================== Nút Bảng điểm / Profile ==================
         btnBangdiem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity_trangchu.this , activity_bangdiem.class);
+                // nếu sau này cần truyền HocSinh sang bảng điểm thì thêm:
+                // intent.putExtra("hoc_sinh", currentStudent);
                 startActivity(intent);
             }
         });
+
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity_trangchu.this , activity_profile.class) ;
+                Intent intent = new Intent(activity_trangchu.this , activity_profile.class);
+                // ==== TRUYỀN SINH VIÊN HIỆN TẠI SANG PROFILE ====
+                intent.putExtra("hoc_sinh", currentStudent);
                 startActivity(intent);
             }
         });
 
-        // ==========================================================   Gọi inent chuyển trang cho menu , header ========================================== //
-        navHome = findViewById(R.id.navHome);
-        navLichhoc = findViewById(R.id.navLichhoc);
-        navBamgio = findViewById(R.id.navBamgio);
-        navNhiemvu = findViewById(R.id.navNhiemvu);
-        btnSetting = findViewById(R.id.btnSetting);
-
-
+        // ================== HEADER / MENU DƯỚI ==================
         btnSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity_trangchu.this , activity_setting.class) ;
+                // intent.putExtra("hoc_sinh", currentStudent); // nếu cần
                 startActivity(intent);
             }
         });
@@ -111,81 +124,84 @@ public class activity_trangchu extends AppCompatActivity {
         navHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity_trangchu.this, activity_trangchu.class);
-                startActivity(intent);
+                // Đang ở trang chủ rồi, không cần mở lại chính nó
             }
         });
+
         navLichhoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity_trangchu.this, activity_lichhoc.class);
+                // intent.putExtra("hoc_sinh", currentStudent);
                 startActivity(intent);
             }
         });
+
         navBamgio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity_trangchu.this, activity_bamgio.class);
+                // intent.putExtra("hoc_sinh", currentStudent);
                 startActivity(intent);
             }
         });
+
         navNhiemvu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity_trangchu.this, activity_nhiemvu.class);
+                // intent.putExtra("hoc_sinh", currentStudent);
                 startActivity(intent);
             }
         });
     }
 
-    // -=========================================Hàm copy csdl =====================================
+    // ================================== HÀM COPY CSDL TỪ ASSETS ==================================
     private void processCopy() {
-        //private app
         File dbFile = getDatabasePath(DATABASE_NAME);
-        if (!dbFile.exists())
-        {
-            try{CopyDataBaseFromAsset();
-                Toast.makeText(this, "Copying sucess from Assets folder",
+        if (!dbFile.exists()) {
+            try {
+                CopyDataBaseFromAsset();
+                Toast.makeText(this,
+                        "Copy CSDL thành công từ Assets",
                         Toast.LENGTH_LONG).show();
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
             }
         }
     }
-    private String getDatabasePath() {
-        return getApplicationInfo().dataDir + DB_PATH_SUFFIX+ DATABASE_NAME;
+
+    private String getDatabasePathString() {
+        return getApplicationInfo().dataDir + DB_PATH_SUFFIX + DATABASE_NAME;
     }
 
     public void CopyDataBaseFromAsset() {
-        // TODO Auto-generated method stub
         try {
-            InputStream myInput;
-            myInput = getAssets().open(DATABASE_NAME);
-            // Path to the just created empty db
-            String outFileName = getDatabasePath();
-            // if the path doesn't exist first, create it
+            InputStream myInput = getAssets().open(DATABASE_NAME);
+
+            String outFileName = getDatabasePathString();
+
             File f = new File(getApplicationInfo().dataDir + DB_PATH_SUFFIX);
-            if (!f.exists())
+            if (!f.exists()) {
                 f.mkdir();
-            // Open the empty db as the output stream
+            }
+
             OutputStream myOutput = new FileOutputStream(outFileName);
-            // transfer bytes from the inputfile to the outputfile
-            // Truyền bytes dữ liệu từ input đến output
+
             int size = myInput.available();
             byte[] buffer = new byte[size];
             myInput.read(buffer);
             myOutput.write(buffer);
-            // Close the streams
+
             myOutput.flush();
             myOutput.close();
             myInput.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
-    // ==================================== HÀM LOAD DỮ LIỆU SQL ==========================//
+
+    // ======================== HÀM LOAD LỊCH HỌC THEO NGÀY ========================
     private void loadLichHocForDate(String ngayHoc) {
         lichHocList.clear();
 
