@@ -63,7 +63,10 @@ public class activity_signin extends AppCompatActivity {
             return;
         }
 
+        // Lấy học sinh từ DB
         HocSinh hs = dbHelper.getHocSinhByEmailPassword(email, pass);
+
+
         if (hs == null) {
             Toast.makeText(this, "Email hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
             return;
@@ -75,10 +78,13 @@ public class activity_signin extends AppCompatActivity {
                 .putString("TEN_HOC_SINH", hs.getHoTen())   // optional, để chào tên ở trang chủ
                 .apply();
 
+
+        SessionManager.saveUserId(this, hs.getId());
+
         // Đăng nhập thành công: sang Trang chủ, truyền kèm HọcSinh
         Intent intent = new Intent(activity_signin.this, activity_trangchu.class);
         intent.putExtra("hoc_sinh", hs);
         startActivity(intent);
         finish();
-    }
+}
 }

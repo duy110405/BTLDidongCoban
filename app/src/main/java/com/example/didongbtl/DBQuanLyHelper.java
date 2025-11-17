@@ -22,7 +22,7 @@ public class DBQuanLyHelper extends SQLiteOpenHelper {
 
     // ⚠️ TẠM THỜI: luôn replace DB cũ để tiện dev
     // Sau này build thật thì cho về false
-    private static final boolean FORCE_REPLACE_DB = true;
+    private static final boolean FORCE_REPLACE_DB = false;
 
     private Context context;
     private String dbPath;

@@ -74,34 +74,40 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="25dp"
             android:layout_marginRight="30dp">
+
+            <!-- Tiêu đề nhiệm vụ -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tiêu đề nhiệm vụ"
                 android:textStyle="bold"
-                android:textSize="16dp"/>
+                android:textSize="16dp" />
 
             <EditText
+                android:id="@+id/edtTieudeNhiemvu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bogoconhap"
-                android:text="Nhập tiêu đề nhiệm vụ của bạn"
+                android:hint="Nhập tiêu đề nhiệm vụ của bạn"
                 android:textSize="16dp"
                 android:textStyle="italic"
                 android:textColor="#6A6767"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp" />
+
+            <!-- Ngày & giờ hạn -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ngày và giờ hạn"
                 android:textStyle="bold"
                 android:textSize="16dp"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="20dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chọn ngày và giờ để hoàn thành nhiệm vụ"
-                android:textColor="#6A6767"/>
+                android:textColor="#6A6767" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -131,7 +137,7 @@
                         android:textStyle="bold"
                         android:textSize="20dp"
                         android:clickable="true"
-                        android:focusable="true"/>
+                        android:focusable="true" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -149,31 +155,34 @@
                         android:id="@+id/txtChongio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" ⏰Chọn giờ"
+                        android:text="⏰ Chọn giờ"
                         android:drawablePadding="8dp"
                         android:textSize="20dp"
                         android:textStyle="bold"
                         android:clickable="true"
-                        android:focusable="true"/>
+                        android:focusable="true" />
                 </LinearLayout>
             </LinearLayout>
 
+            <!-- Mức độ ưu tiên -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mức độ ưu tiên"
                     android:textSize="16dp"
                     android:textStyle="bold"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_marginTop="20dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Chọn mức độ ưu tiên "
-                    android:textColor="#6A6767"/>
+                    android:textColor="#6A6767" />
             </LinearLayout>
 
             <LinearLayout
@@ -181,59 +190,72 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
+
                 <Button
+                    android:id="@+id/btnUuTienCao"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="CAO"
                     android:backgroundTint="#ED4444"
-                    android:layout_marginEnd="8dp"/>
+                    android:textColor="@android:color/white"
+                    android:layout_marginEnd="8dp" />
+
                 <Button
+                    android:id="@+id/btnUuTienThap"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="THẤP"
-                    android:backgroundTint="#C81DDB"/>
+                    android:backgroundTint="#C81DDB"
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
+            <!-- Mô tả chi tiết -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="20dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mô tả chi tiết (Tùy chọn )"
                     android:textStyle="bold"
-                    android:textSize="16dp"/>
+                    android:textSize="16dp" />
+
                 <EditText
+                    android:id="@+id/edtMotaNhiemvu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
                     android:background="@drawable/bogoconhap"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp" />
             </LinearLayout>
 
+            <!-- Nút Hủy / Lưu -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="20dp">
+
                 <Button
+                    android:id="@+id/btnHuyNhiemvu"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="Hủy"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp" />
+
                 <Button
+                    android:id="@+id/btnLuuNhiemvu"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Lưu nhiệm vụ"/>
+                    android:text="Lưu nhiệm vụ" />
             </LinearLayout>
-
-
 
         </LinearLayout>
     </ScrollView>
@@ -357,7 +379,6 @@
                 android:textColor="@color/black"
                 android:textSize="10sp" />
         </LinearLayout>
-
 
     </LinearLayout>
 
