@@ -41,6 +41,8 @@ public class activity_bangdiem extends AppCompatActivity {
     private static final String DB_PATH_SUFFIX = "/databases/";
     private static final String DATABASE_NAME = "QuanLySQLDiDong.db";
     private SQLiteDatabase database = null;
+    private int currentIdHocSinh = -1;
+    private DBQuanLyHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +57,19 @@ public class activity_bangdiem extends AppCompatActivity {
         edtHocluc     = findViewById(R.id.edtHocluc);
         edtSotin      = findViewById(R.id.edtSotin);
 
-        // Copy CSDL từ assets vào thư mục Databases (nếu chưa có)
-        processCopy();
+        // ✅ Lấy Id học sinh từ SESSION (lúc login đã lưu)
+        currentIdHocSinh = getSharedPreferences("SESSION", MODE_PRIVATE)
+                .getInt("ID_HOC_SINH", -1);
 
-        // Mở CSDL
-        database = openOrCreateDatabase(DATABASE_NAME, MODE_PRIVATE, null);
+        if (currentIdHocSinh == -1) {
+            Toast.makeText(this, "Không tìm thấy ID học sinh, hãy đăng nhập lại", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        // ✅ Dùng DBQuanLyHelper để mở DB (nó tự copy từ assets)
+        dbHelper = new DBQuanLyHelper(this);
+        database = dbHelper.getDatabase();
 
         // ================== RecyclerView ==================
         diemMonHocList = new ArrayList<>();
@@ -110,69 +120,20 @@ public class activity_bangdiem extends AppCompatActivity {
         });
     }
 
-    // -=========================================Hàm copy csdl =====================================
-    private void processCopy() {
-        File dbFile = getDatabasePath(DATABASE_NAME);
-
-        // TẠM THỜI: luôn xoá DB cũ để copy lại – tiện khi đang phát triển
-        if (dbFile.exists()) {
-            dbFile.delete();
-        }
-
-        if (!dbFile.exists()) {
-            try {
-                CopyDataBaseFromAsset();
-                Toast.makeText(this, "Copying success from Assets folder",
-                        Toast.LENGTH_LONG).show();
-            } catch (Exception e) {
-                Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-
-    private String getDatabasePathString() {
-        return getApplicationInfo().dataDir + DB_PATH_SUFFIX + DATABASE_NAME;
-    }
-
-    public void CopyDataBaseFromAsset() {
-        try {
-            InputStream myInput = getAssets().open(DATABASE_NAME);
-            String outFileName = getDatabasePathString();
-
-            File f = new File(getApplicationInfo().dataDir + DB_PATH_SUFFIX);
-            if (!f.exists()) f.mkdir();
-
-            OutputStream myOutput = new FileOutputStream(outFileName);
-
-            int size = myInput.available();
-            byte[] buffer = new byte[size];
-            myInput.read(buffer);
-            myOutput.write(buffer);
-
-            myOutput.flush();
-            myOutput.close();
-            myInput.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     // ==================================== HÀM LOAD DỮ LIỆU SQL ==========================//
     private void loadDiemMon() {
         diemMonHocList.clear();
 
-        if (database == null) {
-            database = openOrCreateDatabase(DATABASE_NAME, MODE_PRIVATE, null);
+        if (database == null || !database.isOpen()) {
+            database = dbHelper.getDatabase();
         }
 
         String sql = "SELECT MaMon, TenMon, SoTin, ThangDiem10, ThangDiem4, ThangDiemChu, GhiChu " +
-                "FROM DiemMon";
+                "FROM DiemMon WHERE IdHocSinh = ?";
 
-        Cursor cursor = database.rawQuery(sql, null);
+        Cursor cursor = database.rawQuery(sql, new String[]{String.valueOf(currentIdHocSinh)});
 
-        // Biến dùng để tính TBC & số tín tích lũy
         int tongTin = 0;
         double tongDiem10 = 0;
         double tongDiem4  = 0;
@@ -181,18 +142,16 @@ public class activity_bangdiem extends AppCompatActivity {
             do {
                 int maMon = cursor.getInt(0);
                 String tenMon = cursor.getString(1);
-                int soTin = cursor.getInt(2);            // INTEGER
-                double thangDiem10 = cursor.getDouble(3); // REAL / INTEGER vẫn đọc được
+                int soTin = cursor.getInt(2);
+                double thangDiem10 = cursor.getDouble(3);
                 double thangDiem4  = cursor.getDouble(4);
                 String thangDiemChu = cursor.getString(5);
                 String ghiChu = cursor.getString(6);
 
-                // Thêm vào list hiển thị RecyclerView
                 diemMonHocList.add(new DiemMonHoc(
                         maMon, tenMon, soTin, thangDiem10, thangDiem4, thangDiemChu, ghiChu
                 ));
 
-                // Cộng dồn để tính TBC có trọng số theo số tín
                 tongTin += soTin;
                 tongDiem10 += soTin * thangDiem10;
                 tongDiem4  += soTin * thangDiem4;
@@ -203,17 +162,14 @@ public class activity_bangdiem extends AppCompatActivity {
         cursor.close();
         diemmonAdapter.notifyDataSetChanged();
 
-        // ------------ Đổ dữ liệu vào 4 EditText ------------
         if (tongTin > 0) {
             double tbc10 = tongDiem10 / tongTin;
             double tbc4  = tongDiem4  / tongTin;
 
-            // Hiển thị 2 số sau dấu phẩy
             edtTbcthang10.setText(String.format(java.util.Locale.getDefault(), "%.2f", tbc10));
             edtTbcthang4.setText(String.format(java.util.Locale.getDefault(), "%.2f", tbc4));
             edtSotin.setText(String.valueOf(tongTin));
 
-            // Xếp loại học lực theo thang 4 (bạn chỉnh lại rule nếu trường khác)
             String hocLuc;
             if (tbc4 >= 3.6) {
                 hocLuc = "Xuất sắc";
@@ -229,15 +185,15 @@ public class activity_bangdiem extends AppCompatActivity {
             edtHocluc.setText(hocLuc);
 
         } else {
-            // Không có dòng nào trong bảng DiemMon
             edtTbcthang10.setText("");
             edtTbcthang4.setText("");
             edtSotin.setText("0");
             edtHocluc.setText("");
             Toast.makeText(this,
-                    "Chưa có dữ liệu điểm môn học",
+                    "Chưa có dữ liệu điểm môn học cho sinh viên này",
                     Toast.LENGTH_SHORT).show();
         }
     }
+
 
 }

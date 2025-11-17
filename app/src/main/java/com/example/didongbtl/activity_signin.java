@@ -68,6 +68,12 @@ public class activity_signin extends AppCompatActivity {
             Toast.makeText(this, "Email hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
             return;
         }
+        // ✅ Lưu ID học sinh vào SESSION
+        getSharedPreferences("SESSION", MODE_PRIVATE)
+                .edit()
+                .putInt("ID_HOC_SINH", hs.getId())          // dùng getId() mà bạn đã set trong cursorToHocSinh
+                .putString("TEN_HOC_SINH", hs.getHoTen())   // optional, để chào tên ở trang chủ
+                .apply();
 
         // Đăng nhập thành công: sang Trang chủ, truyền kèm HọcSinh
         Intent intent = new Intent(activity_signin.this, activity_trangchu.class);
