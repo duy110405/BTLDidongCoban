@@ -83,6 +83,7 @@
                 android:layout_marginRight="30dp">
 
                 <EditText
+                    android:id="@+id/edtSearch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bogoconhap"
@@ -125,9 +126,12 @@
                 android:layout_marginRight="30dp"
                 android:orientation="vertical">
 
+                <!-- RecyclerView danh sách nhiệm vụ (dùng SQLite) -->
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvNhiemvu"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never" />
             </LinearLayout>
 
             <!--======================================Nhiệm vụ ưu tiên================ -->
