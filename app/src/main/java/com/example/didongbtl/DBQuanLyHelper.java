@@ -20,6 +20,10 @@ public class DBQuanLyHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "QuanLySQLDiDong.db";
     private static final int DB_VERSION = 1;
 
+    // ⚠️ TẠM THỜI: luôn replace DB cũ để tiện dev
+    // Sau này build thật thì cho về false
+    private static final boolean FORCE_REPLACE_DB = true;
+
     private Context context;
     private String dbPath;
 
@@ -40,28 +44,42 @@ public class DBQuanLyHelper extends SQLiteOpenHelper {
         // Nếu muốn nâng cấp DB, có thể xóa rồi copy lại
     }
 
-    // ====== COPY DB TỪ ASSETS NẾU CHƯA CÓ ======
+    // ====== COPY DB TỪ ASSETS ======
     private void copyDatabaseIfNeeded() {
         try {
-            File dbFile = new File(dbPath + DB_NAME);
-            if (!dbFile.exists()) {
-                File folder = new File(dbPath);
-                if (!folder.exists()) folder.mkdirs();
-
-                AssetManager assetManager = context.getAssets();
-                InputStream is = assetManager.open(DB_NAME);
-                OutputStream os = new FileOutputStream(dbFile);
-
-                byte[] buffer = new byte[1024];
-                int length;
-                while ((length = is.read(buffer)) > 0) {
-                    os.write(buffer, 0, length);
-                }
-
-                os.flush();
-                os.close();
-                is.close();
+            File folder = new File(dbPath);
+            if (!folder.exists()) {
+                folder.mkdirs();
             }
+
+            File dbFile = new File(dbPath + DB_NAME);
+
+            // TẠM THỜI: luôn xóa DB cũ để copy lại (tránh lỗi thiếu bảng khi dev)
+            if (dbFile.exists()) {
+                if (FORCE_REPLACE_DB) {
+                    boolean deleted = dbFile.delete();
+                    // nếu muốn debug:
+                    // Log.d("DBQuanLyHelper", "Delete old DB: " + deleted);
+                } else {
+                    // Không ép replace thì thôi, DB đã có sẵn -> không copy nữa
+                    return;
+                }
+            }
+
+            AssetManager assetManager = context.getAssets();
+            InputStream is = assetManager.open(DB_NAME);
+            OutputStream os = new FileOutputStream(dbFile);
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = is.read(buffer)) > 0) {
+                os.write(buffer, 0, length);
+            }
+
+            os.flush();
+            os.close();
+            is.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
