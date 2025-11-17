@@ -111,8 +111,11 @@ public class activity_addnhiemvu extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 (view, y, m, d) -> {
-                    selectedDate = String.format(Locale.getDefault(),
-                            "%02d/%02d/%d", d, m + 1, y);
+                    selectedDate = String.format(
+                            Locale.getDefault(),
+                            "%02d/%02d/%d", // dd/MM/yyyy
+                            d, m + 1, y
+                    );
                     txtChonngay.setText("📆 " + selectedDate);
                 },
                 year, month, day
@@ -128,8 +131,11 @@ public class activity_addnhiemvu extends AppCompatActivity {
         TimePickerDialog timePickerDialog = new TimePickerDialog(
                 this,
                 (view, h, m) -> {
-                    selectedTime = String.format(Locale.getDefault(),
-                            "%02d:%02d", h, m);
+                    selectedTime = String.format(
+                            Locale.getDefault(),
+                            "%02d:%02d", // HH:mm
+                            h, m
+                    );
                     txtChongio.setText("⏰ " + selectedTime);
                 },
                 hour, minute, true
